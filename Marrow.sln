@@ -10,6 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A06AC1
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marrow.Tests", "Marrow.Tests\Marrow.Tests.csproj", "{DCD8644A-6191-4545-9AC1-378BE61177C0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{31B96171-5812-4E42-81F9-4E8357574758} = {31B96171-5812-4E42-81F9-4E8357574758}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +25,10 @@ Global
 		{31B96171-5812-4E42-81F9-4E8357574758}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31B96171-5812-4E42-81F9-4E8357574758}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31B96171-5812-4E42-81F9-4E8357574758}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCD8644A-6191-4545-9AC1-378BE61177C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCD8644A-6191-4545-9AC1-378BE61177C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCD8644A-6191-4545-9AC1-378BE61177C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCD8644A-6191-4545-9AC1-378BE61177C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
