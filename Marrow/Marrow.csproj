@@ -88,6 +88,7 @@
   <ItemGroup>
     <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReactiveList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
