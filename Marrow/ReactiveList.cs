@@ -142,9 +142,12 @@ namespace Marrow
 
         public void Clear()
         {
-            this.list.Clear();
+            if (this.Count > 0)
+            {
+                this.list.Clear();
 
-            this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            }
         }
 
         public bool Contains(T item)

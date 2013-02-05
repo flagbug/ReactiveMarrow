@@ -199,7 +199,7 @@ namespace Marrow.Tests
         [Fact]
         public void ResetIsHotObservable()
         {
-            var list = new ReactiveList<int>();
+            var list = new ReactiveList<int> { 1 };
 
             bool fired1 = false;
             bool fired2 = false;
