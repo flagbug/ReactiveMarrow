@@ -32,6 +32,45 @@ namespace Marrow.Tests
         }
 
         [Fact]
+        public void AddFiresChanged()
+        {
+            var list = new ReactiveList<int>();
+            bool fired = false;
+
+            list.Changed.Subscribe(x => fired = true);
+
+            list.Add(1);
+
+            Assert.True(fired);
+        }
+
+        [Fact]
+        public void ClearFiresChanged()
+        {
+            var list = new ReactiveList<int> { 1 };
+            bool fired = false;
+
+            list.Changed.Subscribe(x => fired = true);
+
+            list.Clear();
+
+            Assert.True(fired);
+        }
+
+        [Fact]
+        public void ClearDoesNotFireChangedIfListIsEmpty()
+        {
+            var list = new ReactiveList<int>();
+            bool fired = false;
+
+            list.Changed.Subscribe(x => fired = true);
+
+            list.Clear();
+
+            Assert.False(fired);
+        }
+
+        [Fact]
         public void ClearFiresReset()
         {
             var list = new ReactiveList<int> { 1 };
@@ -42,6 +81,19 @@ namespace Marrow.Tests
             list.Clear();
 
             Assert.True(fired);
+        }
+
+        [Fact]
+        public void ClearDoesNotFireResetIfListIsEmpty()
+        {
+            var list = new ReactiveList<int>();
+            bool fired = false;
+
+            list.Reset.Subscribe(x => fired = true);
+
+            list.Clear();
+
+            Assert.False(fired);
         }
 
         [Fact]
@@ -68,6 +120,45 @@ namespace Marrow.Tests
             bool fired = false;
 
             list.ItemRemoved.Subscribe(x => fired = true);
+
+            list.Remove(1);
+
+            Assert.True(fired);
+        }
+
+        [Fact]
+        public void RemoveDoesNotFireItemRemovedIfListDoesNotContainItem()
+        {
+            var list = new ReactiveList<int>();
+            bool fired = false;
+
+            list.ItemRemoved.Subscribe(x => fired = true);
+
+            list.Remove(1);
+
+            Assert.False(fired);
+        }
+
+        [Fact]
+        public void RemoveDoesNotFireChangedIfListDoesNotContainItem()
+        {
+            var list = new ReactiveList<int>();
+            bool fired = false;
+
+            list.Changed.Subscribe(x => fired = true);
+
+            list.Remove(1);
+
+            Assert.False(fired);
+        }
+
+        [Fact]
+        public void RemoveFiresChanged()
+        {
+            var list = new ReactiveList<int> { 1 };
+            bool fired = false;
+
+            list.Changed.Subscribe(x => fired = true);
 
             list.Remove(1);
 
