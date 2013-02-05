@@ -64,23 +64,25 @@ namespace Marrow
             get { return false; }
         }
 
-        public IObservable<T> ItemAdded
+        public IObservable<Tuple<int, T>> ItemAdded
         {
             get
             {
                 return this.Changed
                     .Where(x => x.Action == NotifyCollectionChangedAction.Add)
-                    .SelectMany(x => x.NewItems.Cast<T>());
+                    .SelectMany(x => x.NewItems.Cast<T>()
+                        .Select((item, i) => new Tuple<int, T>(x.NewStartingIndex + i, item)));
             }
         }
 
-        public IObservable<T> ItemRemoved
+        public IObservable<Tuple<int, T>> ItemRemoved
         {
             get
             {
                 return this.Changed
                     .Where(x => x.Action == NotifyCollectionChangedAction.Remove)
-                    .SelectMany(x => x.OldItems.Cast<T>());
+                    .SelectMany(x => x.OldItems.Cast<T>()
+                        .Select((item, i) => new Tuple<int, T>(x.OldStartingIndex + i, item)));
             }
         }
 
@@ -167,11 +169,17 @@ namespace Marrow
 
         public int IndexOf(T item)
         {
+            Contract.Ensures(Contract.Result<int>() >= -1);
+            Contract.Ensures(Contract.Result<int>() < this.Count);
+
             return this.list.IndexOf(item);
         }
 
         public void Insert(int index, T item)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
+            Contract.Requires<ArgumentOutOfRangeException>(index <= this.Count);
+
             this.list.Insert(index, item);
 
             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
@@ -180,7 +188,7 @@ namespace Marrow
         public void InsertRange(int index, IEnumerable<T> collection)
         {
             Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
-            Contract.Requires<ArgumentOutOfRangeException>(index < this.Count);
+            Contract.Requires<ArgumentOutOfRangeException>(index <= this.Count);
             Contract.Requires(collection != null);
 
             IList<T> collectionToInsert = collection.ToList();
@@ -192,14 +200,15 @@ namespace Marrow
 
         public bool Remove(T item)
         {
-            bool removed = this.list.Remove(item);
+            int index = this.IndexOf(item);
 
-            if (removed)
+            if (index > -1)
             {
-                this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+                this.RemoveAt(index);
+                return true;
             }
 
-            return removed;
+            return false;
         }
 
         public int RemoveAll(Func<T, bool> match)
