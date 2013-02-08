@@ -122,9 +122,7 @@ namespace Marrow
 
             if (itemsToAdd.Count != 0)
             {
-                int currentCount = this.Count;
-
-                if (this.ShouldReset(itemsToAdd.Count, currentCount))
+                if (this.ShouldReset(itemsToAdd.Count, this.Count))
                 {
                     this.list.AddRange(itemsToAdd);
                     this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));

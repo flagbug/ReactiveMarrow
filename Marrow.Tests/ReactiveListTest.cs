@@ -46,6 +46,19 @@ namespace Marrow.Tests
         }
 
         [Fact]
+        public void AddRangeFiresSingleItemAddEvents()
+        {
+            var list = new ReactiveList<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            int fireCount = 0;
+
+            list.ItemAdded.Subscribe(x => fireCount++);
+
+            list.AddRange(new[] { 0, 1, 2 });
+
+            Assert.Equal(3, fireCount);
+        }
+
+        [Fact]
         public void ClearDoesNotFireChangedIfListIsEmpty()
         {
             var list = new ReactiveList<int>();
