@@ -7,7 +7,7 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
-namespace Marrow
+namespace ReactiveMarrow
 {
     public static class Extensions
     {

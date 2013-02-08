@@ -2,7 +2,7 @@
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
-namespace Marrow
+namespace ReactiveMarrow
 {
     /// <summary>
     /// Provides an implementation of <see cref="IObservable{T}"/> that is also a read-write property.

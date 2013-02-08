@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marrow", "Marrow\Marrow.csproj", "{31B96171-5812-4E42-81F9-4E8357574758}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveMarrow", "ReactiveMarrow\ReactiveMarrow.csproj", "{31B96171-5812-4E42-81F9-4E8357574758}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A06AC15D-4C72-4752-8E14-21E012D30193}"
 	ProjectSection(SolutionItems) = preProject
@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A06AC1
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marrow.Tests", "Marrow.Tests\Marrow.Tests.csproj", "{DCD8644A-6191-4545-9AC1-378BE61177C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveMarrow.Tests", "ReactiveMarrow.Tests\ReactiveMarrow.Tests.csproj", "{DCD8644A-6191-4545-9AC1-378BE61177C0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{31B96171-5812-4E42-81F9-4E8357574758} = {31B96171-5812-4E42-81F9-4E8357574758}
 	EndProjectSection

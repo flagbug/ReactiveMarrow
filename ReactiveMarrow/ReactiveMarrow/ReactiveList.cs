@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 
-namespace Marrow
+namespace ReactiveMarrow
 {
     public class ReactiveList<T> : IList<T>, INotifyCollectionChanged, INotifyPropertyChanged
     {

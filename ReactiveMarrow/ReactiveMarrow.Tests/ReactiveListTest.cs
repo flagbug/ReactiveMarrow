@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xunit;
 
-namespace Marrow.Tests
+namespace ReactiveMarrow.Tests
 {
     public class ReactiveListTest
     {
