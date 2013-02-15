@@ -59,6 +59,23 @@ namespace ReactiveMarrow.Tests
         }
 
         [Fact]
+        public void ChangedIsHotObservable()
+        {
+            var list = new ReactiveList<int>();
+
+            bool fired1 = false;
+            bool fired2 = false;
+
+            list.Changed.Subscribe(x => fired1 = true);
+            list.Changed.Subscribe(x => fired2 = true);
+
+            list.Add(1);
+
+            Assert.True(fired1);
+            Assert.True(fired2);
+        }
+
+        [Fact]
         public void ClearDoesNotFireChangedIfListIsEmpty()
         {
             var list = new ReactiveList<int>();
@@ -155,6 +172,16 @@ namespace ReactiveMarrow.Tests
             list.Remove(1);
 
             Assert.Equal(new[] { 2, 1, 0 }, indexes);
+        }
+
+        [Fact]
+        public void RemoveAllRemovesCorrectItems()
+        {
+            var list = new ReactiveList<int> { 0, 1, 2, 3, 4 };
+
+            list.RemoveAll(x => x == 2 || x == 3 || x == 4);
+
+            Assert.Equal(new[] { 0, 1 }, list);
         }
 
         [Fact]

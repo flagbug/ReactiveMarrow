@@ -216,7 +216,7 @@ namespace ReactiveMarrow
         {
             Contract.Requires(match != null);
             Contract.Ensures(Contract.Result<int>() >= 0);
-            Contract.Ensures(Contract.Result<int>() <= this.Count);
+            Contract.Ensures(Contract.Result<int>() <= Contract.OldValue(this.Count));
 
             var removedList = new List<KeyValuePair<int, T>>(this.list.Capacity);
             int previousCount = this.Count;
