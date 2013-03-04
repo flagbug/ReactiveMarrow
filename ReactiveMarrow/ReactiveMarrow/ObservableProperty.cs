@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
@@ -14,6 +15,7 @@ namespace ReactiveMarrow
         private readonly BehaviorSubject<T> backingField;
         private readonly Func<T> getter;
         private readonly Func<T, T> setter;
+        private readonly Expression<Func<T, bool>> setterContract;
 
         /// <summary>
         /// Initializes the <see cref="ObservableProperty{T}"/> with the default value of <see cref="T"/>
@@ -22,11 +24,12 @@ namespace ReactiveMarrow
             : this(default(T))
         { }
 
-        public ObservableProperty(Func<T> getter, Func<T, T> setter = null)
-            : this(default(T))
+        public ObservableProperty(Func<T> getter, Func<T, T> setter = null, Expression<Func<T, bool>> setterContract = null)
+            : this(getter())
         {
             this.getter = getter;
             this.setter = setter;
+            this.setterContract = setterContract;
         }
 
         /// <summary>
@@ -38,12 +41,20 @@ namespace ReactiveMarrow
             this.backingField = new BehaviorSubject<T>(value);
         }
 
-        public ObservableProperty(Func<T, T> setter)
+        public ObservableProperty(Expression<Func<T, bool>> setterContract)
+        {
+            Contract.Requires(setterContract != null);
+
+            this.setterContract = setterContract;
+        }
+
+        public ObservableProperty(Func<T, T> setter, Expression<Func<T, bool>> setterContract = null)
             : this(default(T))
         {
             Contract.Requires(setter != null);
 
             this.setter = setter;
+            this.setterContract = setterContract;
         }
 
         /// <summary>
@@ -63,9 +74,14 @@ namespace ReactiveMarrow
 
             set
             {
+                if (this.setterContract != null && !this.setterContract.Compile()(value))
+                {
+                    throw new Exception(ExpressionToString(this.setterContract));
+                }
+
                 T transformedValue = value;
 
-                if (setter != null)
+                if (this.setter != null)
                 {
                     transformedValue = this.setter(value);
                 }
@@ -77,6 +93,18 @@ namespace ReactiveMarrow
         public IDisposable Subscribe(IObserver<T> observer)
         {
             return this.backingField.Subscribe(observer);
+        }
+
+        private static string ExpressionToString<TExpression>(Expression<TExpression> expression)
+        {
+            string expBody = expression.Body.ToString();
+
+            var paramName = expression.Parameters[0].Name;
+            var paramTypeName = expression.Parameters[0].Type.Name;
+
+            expBody = expBody.Replace(paramName + ".", paramTypeName + ".");
+
+            return expBody;
         }
     }
 }

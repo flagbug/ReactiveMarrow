@@ -1,9 +1,18 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 
 namespace ReactiveMarrow.Tests
 {
     public class ObservablePropertyTest
     {
+        [Fact]
+        public void FailingSetterContractThrowsException()
+        {
+            var prop = new ObservableProperty<int>(x => x != 1);
+
+            Assert.Throws<Exception>(() => prop.Value = 1);
+        }
+
         [Fact]
         public void ValueGetterGetsSpecifiedValue()
         {
