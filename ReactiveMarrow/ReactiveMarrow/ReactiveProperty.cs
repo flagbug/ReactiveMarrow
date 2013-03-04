@@ -10,7 +10,7 @@ namespace ReactiveMarrow
     /// Provides an implementation of <see cref="IObservable{T}"/> that is also a read-write property.
     /// </summary>
     /// <typeparam name="T">The type of the object that should be exposed.</typeparam>
-    public class ObservableProperty<T> : IObservable<T>
+    public class ReactiveProperty<T> : IObservable<T>
     {
         private readonly BehaviorSubject<T> backingField;
         private readonly Func<T> getter;
@@ -18,13 +18,13 @@ namespace ReactiveMarrow
         private readonly Expression<Func<T, bool>> setterContract;
 
         /// <summary>
-        /// Initializes the <see cref="ObservableProperty{T}"/> with the default value of <see cref="T"/>
+        /// Initializes the <see cref="ReactiveProperty{T}"/> with the default value of <see cref="T"/>
         /// </summary>
-        public ObservableProperty()
+        public ReactiveProperty()
             : this(default(T))
         { }
 
-        public ObservableProperty(Func<T> getter, Func<T, T> setter = null, Expression<Func<T, bool>> setterContract = null)
+        public ReactiveProperty(Func<T> getter, Func<T, T> setter = null, Expression<Func<T, bool>> setterContract = null)
             : this(getter())
         {
             this.getter = getter;
@@ -33,22 +33,22 @@ namespace ReactiveMarrow
         }
 
         /// <summary>
-        /// Initializes the <see cref="ObservableProperty{T}"/> with s specified value for <see cref="T"/>.
+        /// Initializes the <see cref="ReactiveProperty{T}"/> with s specified value for <see cref="T"/>.
         /// </summary>
         /// <param name="value">The value for <see cref="T"/></param>
-        public ObservableProperty(T value)
+        public ReactiveProperty(T value)
         {
             this.backingField = new BehaviorSubject<T>(value);
         }
 
-        public ObservableProperty(Expression<Func<T, bool>> setterContract)
+        public ReactiveProperty(Expression<Func<T, bool>> setterContract)
         {
             Contract.Requires(setterContract != null);
 
             this.setterContract = setterContract;
         }
 
-        public ObservableProperty(Func<T, T> setter, Expression<Func<T, bool>> setterContract = null)
+        public ReactiveProperty(Func<T, T> setter, Expression<Func<T, bool>> setterContract = null)
             : this(default(T))
         {
             Contract.Requires(setter != null);
@@ -58,7 +58,7 @@ namespace ReactiveMarrow
         }
 
         /// <summary>
-        /// Gets or sets the value of the <see cref="ObservableProperty{T}"/>'s backing field.
+        /// Gets or sets the value of the <see cref="ReactiveProperty{T}"/>'s backing field.
         /// </summary>
         public T Value
         {

@@ -119,7 +119,7 @@
   <ItemGroup>
     <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ObservableProperty.cs" />
+    <Compile Include="ReactiveProperty.cs" />
     <Compile Include="ReactiveList.cs" />
   </ItemGroup>
   <ItemGroup>
