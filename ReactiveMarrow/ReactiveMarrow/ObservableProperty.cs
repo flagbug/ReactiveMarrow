@@ -12,6 +12,7 @@ namespace ReactiveMarrow
     public class ObservableProperty<T> : IObservable<T>
     {
         private readonly BehaviorSubject<T> backingField;
+        private readonly Func<T> getter;
         private readonly Func<T, T> setter;
 
         /// <summary>
@@ -20,6 +21,13 @@ namespace ReactiveMarrow
         public ObservableProperty()
             : this(default(T))
         { }
+
+        public ObservableProperty(Func<T> getter, Func<T, T> setter = null)
+            : this(default(T))
+        {
+            this.getter = getter;
+            this.setter = setter;
+        }
 
         /// <summary>
         /// Initializes the <see cref="ObservableProperty{T}"/> with s specified value for <see cref="T"/>.
@@ -43,7 +51,16 @@ namespace ReactiveMarrow
         /// </summary>
         public T Value
         {
-            get { return this.backingField.First(); }
+            get
+            {
+                if (getter == null)
+                {
+                    return this.backingField.First();
+                }
+
+                return this.getter();
+            }
+
             set
             {
                 T transformedValue = value;
