@@ -17,13 +17,6 @@ namespace ReactiveMarrow
         private readonly Func<T, T> setter;
         private readonly Expression<Func<T, bool>> setterContract;
 
-        /// <summary>
-        /// Initializes the <see cref="ReactiveProperty{T}"/> with the default value of <see cref="T"/>
-        /// </summary>
-        public ReactiveProperty()
-            : this(default(T))
-        { }
-
         public ReactiveProperty(Func<T> getter, Func<T, T> setter = null, Expression<Func<T, bool>> setterContract = null)
             : this(getter())
         {
@@ -33,15 +26,16 @@ namespace ReactiveMarrow
         }
 
         /// <summary>
-        /// Initializes the <see cref="ReactiveProperty{T}"/> with s specified value for <see cref="T"/>.
+        /// Initializes the <see cref="ReactiveProperty{T}"/> with an optional default value for <see cref="T"/>.
         /// </summary>
         /// <param name="value">The value for <see cref="T"/></param>
-        public ReactiveProperty(T value)
+        public ReactiveProperty(T value = default(T))
         {
             this.backingField = new BehaviorSubject<T>(value);
         }
 
         public ReactiveProperty(Expression<Func<T, bool>> setterContract)
+            : this()
         {
             Contract.Requires(setterContract != null);
 
@@ -49,7 +43,7 @@ namespace ReactiveMarrow
         }
 
         public ReactiveProperty(Func<T, T> setter, Expression<Func<T, bool>> setterContract = null)
-            : this(default(T))
+            : this()
         {
             Contract.Requires(setter != null);
 
