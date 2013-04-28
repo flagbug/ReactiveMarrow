@@ -13,16 +13,18 @@ namespace ReactiveMarrow
     public class ReactiveProperty<T> : IObservable<T>
     {
         private readonly BehaviorSubject<T> backingField;
+        private readonly Type exceptionType;
         private readonly Func<T> getter;
         private readonly Func<T, T> setter;
         private readonly Expression<Func<T, bool>> setterContract;
 
-        public ReactiveProperty(Func<T> getter, Func<T, T> setter = null, Expression<Func<T, bool>> setterContract = null)
+        public ReactiveProperty(Func<T> getter, Func<T, T> setter = null, Expression<Func<T, bool>> setterContract = null, Type exceptionType = null)
             : this(getter())
         {
             this.getter = getter;
             this.setter = setter;
             this.setterContract = setterContract;
+            this.exceptionType = exceptionType;
         }
 
         /// <summary>
@@ -34,21 +36,23 @@ namespace ReactiveMarrow
             this.backingField = new BehaviorSubject<T>(value);
         }
 
-        public ReactiveProperty(Expression<Func<T, bool>> setterContract)
+        public ReactiveProperty(Expression<Func<T, bool>> setterContract, Type exceptionType = null)
             : this()
         {
             Contract.Requires(setterContract != null);
 
             this.setterContract = setterContract;
+            this.exceptionType = exceptionType;
         }
 
-        public ReactiveProperty(Func<T, T> setter, Expression<Func<T, bool>> setterContract = null)
+        public ReactiveProperty(Func<T, T> setter, Expression<Func<T, bool>> setterContract = null, Type exceptionType = null)
             : this()
         {
             Contract.Requires(setter != null);
 
             this.setter = setter;
             this.setterContract = setterContract;
+            this.exceptionType = exceptionType;
         }
 
         /// <summary>
@@ -70,7 +74,11 @@ namespace ReactiveMarrow
             {
                 if (this.setterContract != null && !this.setterContract.Compile()(value))
                 {
-                    throw new Exception(ExpressionToString(this.setterContract));
+                    string expressionString = ExpressionToString(this.setterContract);
+
+                    Exception ex = this.exceptionType == null ? new Exception(expressionString) : (Exception)Activator.CreateInstance(this.exceptionType, expressionString);
+
+                    throw ex;
                 }
 
                 T transformedValue = value;

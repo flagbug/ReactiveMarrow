@@ -14,6 +14,14 @@ namespace ReactiveMarrow.Tests
         }
 
         [Fact]
+        public void SetterContractWithSpecificExceptionTypeThrowsExceptionOfThisType()
+        {
+            var prop = new ReactiveProperty<int>(i => i > 0 && i < 2, typeof(ArgumentOutOfRangeException));
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => prop.Value = 0);
+        }
+
+        [Fact]
         public void ValueGetterGetsSpecifiedValue()
         {
             var prop = new ReactiveProperty<int>(() => 1);
