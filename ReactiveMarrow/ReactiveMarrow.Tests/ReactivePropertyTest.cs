@@ -5,23 +5,6 @@ namespace ReactiveMarrow.Tests
 {
     public class ReactivePropertyTest
     {
-        /*
-        [Fact]
-        public void FailingSetterContractThrowsException()
-        {
-            var prop = new ReactiveProperty<int>(x => x != 1);
-
-            Assert.Throws<Exception>(() => prop.Value = 1);
-        }
-
-        [Fact]
-        public void SetterContractWithSpecificExceptionTypeThrowsExceptionOfThisType()
-        {
-            var prop = new ReactiveProperty<int>(i => i > 0 && i < 2, typeof(ArgumentOutOfRangeException));
-
-            Assert.Throws<ArgumentOutOfRangeException>(() => prop.Value = 0);
-        }*/
-
         [Fact]
         public void ValueGetterGetsSpecifiedValue()
         {

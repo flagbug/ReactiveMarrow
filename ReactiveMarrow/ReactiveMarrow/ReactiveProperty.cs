@@ -39,7 +39,8 @@ namespace ReactiveMarrow
         public ReactiveProperty(Expression<Func<T, bool>> setterContract, Type exceptionType = null)
             : this()
         {
-            Contract.Requires(setterContract != null);
+            if(setterContract == null)
+                throw new ArgumentNullException("setterContract");
 
             this.setterContract = setterContract;
             this.exceptionType = exceptionType;
@@ -48,7 +49,8 @@ namespace ReactiveMarrow
         public ReactiveProperty(Func<T, T> setter, Expression<Func<T, bool>> setterContract = null, Type exceptionType = null)
             : this()
         {
-            Contract.Requires(setter != null);
+            if(setter == null)
+                throw new ArgumentNullException("setter");
 
             this.setter = setter;
             this.setterContract = setterContract;
