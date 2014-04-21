@@ -13,8 +13,4 @@
             <dependency id="Rx-Main" version="2.2.2" />
         </dependencies>
     </metadata>
-    <files>
-        <file src="Release\ReactiveMarrow.dll" target="lib\ReactiveMarrow.dll" />
-        <file src="Release\ReactiveMarrow.xml" target="lib\ReactiveMarrow.xml" />
-    </files>
 </package>
