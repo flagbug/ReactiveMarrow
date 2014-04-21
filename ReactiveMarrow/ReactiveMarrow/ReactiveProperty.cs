@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Linq.Expressions;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
 namespace ReactiveMarrow
 {
     /// <summary>
-    /// Provides an implementation of <see cref="IObservable{T}"/> that is also a read-write property.
+    /// Provides an implementation of <see cref="IObservable{T}" /> that is also a read-write property.
     /// </summary>
     /// <typeparam name="T">The type of the object that should be exposed.</typeparam>
     public class ReactiveProperty<T> : IObservable<T>
@@ -28,9 +26,10 @@ namespace ReactiveMarrow
         }
 
         /// <summary>
-        /// Initializes the <see cref="ReactiveProperty{T}"/> with an optional default value for <see cref="T"/>.
+        /// Initializes the <see cref="ReactiveProperty{T}" /> with an optional default value for
+        /// <see cref="T" />.
         /// </summary>
-        /// <param name="value">The value for <see cref="T"/></param>
+        /// <param name="value">The value for <see cref="T" /></param>
         public ReactiveProperty(T value = default(T))
         {
             this.backingField = new BehaviorSubject<T>(value);
@@ -39,7 +38,7 @@ namespace ReactiveMarrow
         public ReactiveProperty(Expression<Func<T, bool>> setterContract, Type exceptionType = null)
             : this()
         {
-            if(setterContract == null)
+            if (setterContract == null)
                 throw new ArgumentNullException("setterContract");
 
             this.setterContract = setterContract;
@@ -49,7 +48,7 @@ namespace ReactiveMarrow
         public ReactiveProperty(Func<T, T> setter, Expression<Func<T, bool>> setterContract = null, Type exceptionType = null)
             : this()
         {
-            if(setter == null)
+            if (setter == null)
                 throw new ArgumentNullException("setter");
 
             this.setter = setter;
@@ -58,18 +57,13 @@ namespace ReactiveMarrow
         }
 
         /// <summary>
-        /// Gets or sets the value of the <see cref="ReactiveProperty{T}"/>'s backing field.
+        /// Gets or sets the value of the <see cref="ReactiveProperty{T}" />'s backing field.
         /// </summary>
         public T Value
         {
             get
             {
-                if (getter == null)
-                {
-                    return this.backingField.First();
-                }
-
-                return this.getter();
+                return getter == null ? this.backingField.Value : this.getter();
             }
 
             set
