@@ -8,6 +8,13 @@ namespace ReactiveMarrow
 {
     public static class ObservableExtensions
     {
+        /// <summary>
+        /// Matches pairs in a sequence, based on a key selector.
+        /// </summary>
+        /// <param name="left">The left observable sequence.</param>
+        /// <param name="right">The right observable sequence.</param>
+        /// <param name="keySelector">A function to compute the comparison key for the elements.</param>
+        /// <returns>An observable sequence of pairs with an equal left and right element.</returns>
         public static IObservable<Pair<T>> MatchPair<T, TKey>(this IObservable<T> left, IObservable<T> right, Func<T, TKey> keySelector)
         {
             return Observable.Create<Pair<T>>(o =>
@@ -24,7 +31,7 @@ namespace ReactiveMarrow
                     lock (gate)
                     {
                         // Look for the last element, as we want FIFO
-                        int lastIndex = rightCache.FindLastIndex(x => keySelector(x).Equals(keySelector(l)));
+                        int lastIndex = rightCache.FindLastIndex(x => EqualityComparer<TKey>.Default.Equals(keySelector(x), keySelector(l)));
 
                         if (lastIndex > -1)
                         {
@@ -61,7 +68,7 @@ namespace ReactiveMarrow
                     lock (gate)
                     {
                         // Look for the last element, as we want FIFO
-                        int lastIndex = leftCache.FindLastIndex(x => keySelector(x).Equals(keySelector(r)));
+                        int lastIndex = leftCache.FindLastIndex(x => EqualityComparer<TKey>.Default.Equals(keySelector(x), keySelector(r)));
 
                         if (lastIndex > -1)
                         {
