@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ObservableExtensionsTest.cs" />
+    <Compile Include="RateLimitedOberservableQueueTest.cs" />
     <Compile Include="ReactivePropertyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

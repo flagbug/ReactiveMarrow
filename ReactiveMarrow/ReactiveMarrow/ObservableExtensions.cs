@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
@@ -8,6 +9,31 @@ namespace ReactiveMarrow
 {
     public static class ObservableExtensions
     {
+        /// <summary>
+        /// Limits the rate at which items are pushed. A time interval of one second means one item
+        /// per second is pushed out. This method differs from <see
+        /// cref="Observable.Sample{TSource}(System.IObservable{TSource},System.TimeSpan)" />, as
+        /// items aren't dropped and if items come slower than the maximum rate, they are processed
+        /// imemdiately, instead of waiting on the next "tick".
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="maximumRate">
+        /// The rate at which the items should be processed. A timespan of 2 seconds would mean the
+        /// items are processed at a maximum rate of one item every two seconds.
+        /// </param>
+        /// <param name="scheduler">An optional scheduler to schedule the timing on.</param>
+        /// <returns></returns>
+        public static IObservable<T> LimitRate<T>(this IObservable<T> source, TimeSpan maximumRate, IScheduler scheduler = null)
+        {
+            scheduler = scheduler ?? DefaultScheduler.Instance;
+
+            // Here, we are immediately starting with the item, but then we delay the actual
+            // completion of the sequence, so the initial item doesn't have to wait.
+            return source.Select(i => Observable.Empty<T>()
+                .Delay(maximumRate, scheduler)
+                .StartWith(i)).Concat();
+        }
+
         /// <summary>
         /// Matches pairs in a sequence, based on a key selector.
         /// </summary>
