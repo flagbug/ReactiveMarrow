@@ -2,6 +2,10 @@
 
 ReactiveMarrow adds some helpers and extensions for [Reactive Extensions](https://github.com/Reactive-Extensions/Rx.NET)
 
+You can grab it from [NuGet](http://www.nuget.org/packages/ReactiveMarrow/)
+
+This is a portable class library and supports every platform that Rx supports.
+
 # IObservable Extensions
 
 ## `SampleAndCombineLatest`
