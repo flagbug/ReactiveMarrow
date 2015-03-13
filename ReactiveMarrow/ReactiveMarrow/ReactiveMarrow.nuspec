@@ -14,7 +14,7 @@
         </dependencies>
     </metadata>
 	<files>
-      <file src="bin\Release\ReactiveMarrow.dll" target="lib\portable-net45+wp8+win8+monoandroid+monotouch\ReactiveMarrow.dll" />
-      <file src="bin\Release\ReactiveMarrow.xml" target="lib\portable-net45+wp8+win8+monoandroid+monotouch\ReactiveMarrow.xml" />
+      <file src="bin\Release\ReactiveMarrow.dll" target="lib\portable-net45+wp8+win8+wpa81+monoandroid+monotouch\ReactiveMarrow.dll" />
+      <file src="bin\Release\ReactiveMarrow.xml" target="lib\portable-net45+wp8+win8+wpa81+monoandroid+monotouch\ReactiveMarrow.xml" />
 	</files>
 </package>
